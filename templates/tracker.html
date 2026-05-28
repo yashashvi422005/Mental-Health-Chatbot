@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+<p class="eyebrow">Daily check-in</p>
+<h1>Mood Tracker</h1>
+<p class="page-copy">Capture how today feels in a few seconds and leave yourself a small note if you want to.</p>
+</section>
+
+<section class="grid two">
+<div class="panel">
+<h3>Log today's mood</h3>
+<div class="mood-picker" id="mood-picker">
+<button type="button" class="mood-option" data-mood="positive">Positive</button>
+<button type="button" class="mood-option" data-mood="neutral">Steady</button>
+<button type="button" class="mood-option" data-mood="anxiety">Anxious</button>
+<button type="button" class="mood-option" data-mood="sadness">Low</button>
+<button type="button" class="mood-option" data-mood="anger">Frustrated</button>
+</div>
+<textarea id="mood-note" rows="4" placeholder="Optional note about what shaped your day"></textarea>
+<button type="button" id="save-mood-button">Save Check-in</button>
+<p id="mood-feedback" class="muted"></p>
+</div>
+
+<div class="panel">
+<h3>Recent check-ins</h3>
+<div id="mood-list" class="stack-list"></div>
+</div>
+</section>
+{% endblock %}

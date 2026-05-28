@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+<p class="eyebrow">Reflection</p>
+<h1>Journal</h1>
+<p class="page-copy">Write freely, tag the emotion behind the entry, and build a record of what has been moving through you.</p>
+</section>
+
+<section class="grid two">
+<div class="panel">
+<h3>New journal entry</h3>
+<input id="journal-title" type="text" placeholder="Entry title">
+<select id="journal-emotion">
+<option value="neutral">Steady</option>
+<option value="positive">Positive</option>
+<option value="anxiety">Anxious</option>
+<option value="sadness">Low</option>
+<option value="anger">Frustrated</option>
+</select>
+<textarea id="journal-content" rows="8" placeholder="What happened today, and what do you need from yourself right now?"></textarea>
+<button type="button" id="save-journal-button">Save Entry</button>
+<p id="journal-feedback" class="muted"></p>
+</div>
+
+<div class="panel">
+<h3>Recent entries</h3>
+<div id="journal-list" class="stack-list"></div>
+</div>
+</section>
+{% endblock %}

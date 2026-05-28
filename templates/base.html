@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind Haven</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body data-page="{{ page }}">
+<div class="shell">
+<aside class="sidebar">
+<a class="brand" href="/">
+<span class="brand-mark">MH</span>
+<div>
+<p class="brand-name">Mind Haven</p>
+<p class="brand-tag">Personal wellness companion</p>
+</div>
+</a>
+
+<nav class="nav">
+<a href="/" class="nav-link {% if page == 'dashboard' %}active{% endif %}">Dashboard</a>
+<a href="/chat" class="nav-link {% if page == 'chat' %}active{% endif %}">Chat</a>
+<a href="/tracker" class="nav-link {% if page == 'tracker' %}active{% endif %}">Mood Tracker</a>
+<a href="/journal" class="nav-link {% if page == 'journal' %}active{% endif %}">Journal</a>
+<a href="/insights" class="nav-link {% if page == 'insights' %}active{% endif %}">Insights</a>
+<a href="/support" class="nav-link {% if page == 'support' %}active{% endif %}">Support Tools</a>
+</nav>
+
+<div class="sidebar-card">
+<p class="sidebar-card-title">Gentle Reminder</p>
+<p class="sidebar-card-text">This platform offers emotional support and self-reflection tools, but it is not a replacement for professional care.</p>
+</div>
+</aside>
+
+<main class="main">
+{% block content %}{% endblock %}
+</main>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

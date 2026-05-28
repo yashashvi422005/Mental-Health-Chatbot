@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+<p class="eyebrow">Patterns</p>
+<h1>Insights</h1>
+<p class="page-copy">See the emotional themes that have shown up in your check-ins and journal entries.</p>
+</section>
+
+<section class="grid two">
+<div class="panel">
+<h3>Wellness summary</h3>
+<p id="insights-summary" class="lead-copy"></p>
+<div id="insights-stats" class="mini-grid"></div>
+</div>
+<div class="panel">
+<h3>Mood pattern</h3>
+<div id="insights-breakdown" class="bar-list"></div>
+</div>
+</section>
+
+<section class="grid two">
+<div class="panel">
+<h3>Journal themes</h3>
+<div id="journal-breakdown" class="bar-list"></div>
+</div>
+<div class="panel">
+<h3>Recent reflections</h3>
+<div id="insights-notes" class="stack-list"></div>
+</div>
+</section>
+{% endblock %}

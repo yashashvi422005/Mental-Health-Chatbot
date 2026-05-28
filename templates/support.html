@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+<p class="eyebrow">Care tools</p>
+<h1>Support Tools</h1>
+<p class="page-copy">Use short, structured tools when you need to slow down, get grounded, or reconnect with yourself.</p>
+</section>
+
+<section class="grid two" id="tools-grid"></section>
+
+<section class="panel danger-panel">
+<h3>If you are in crisis</h3>
+<ul class="plain-list">
+{% for item in crisis_resources %}
+<li>{{ item }}</li>
+{% endfor %}
+</ul>
+</section>
+{% endblock %}

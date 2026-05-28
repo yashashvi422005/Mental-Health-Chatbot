@@ -1,0 +1,41 @@
+{
+  "moods": [
+    {
+      "id": "2026-04-20T19:10:48",
+      "mood": "sadness",
+      "note": "since i saw a very sad movie, i've been feeling very sad!",
+      "created_at": "2026-04-20T19:10:48",
+      "date": "2026-04-20"
+    },
+    {
+      "id": "2026-04-20T19:23:23",
+      "mood": "positive",
+      "note": "i am hanging out with my friends so i feel really good!",
+      "created_at": "2026-04-20T19:23:23",
+      "date": "2026-04-20"
+    },
+    {
+      "id": "2026-04-21T11:05:21",
+      "mood": "positive",
+      "note": "",
+      "created_at": "2026-04-21T11:05:21",
+      "date": "2026-04-21"
+    }
+  ],
+  "journals": [
+    {
+      "id": "2026-04-20T19:22:50",
+      "title": "Exam!",
+      "content": "The exam today was really difficult!!",
+      "emotion": "anger",
+      "created_at": "2026-04-20T19:22:50"
+    },
+    {
+      "id": "2026-04-21T11:05:59",
+      "title": "Photo session",
+      "content": "clicked a lot of pictures today withh friends!",
+      "emotion": "positive",
+      "created_at": "2026-04-21T11:05:59"
+    }
+  ]
+}
