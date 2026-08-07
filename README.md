@@ -1,0 +1,133 @@
+# Mental Health Companion
+
+A web-based emotional support chatbot built as a B.Tech (Artificial Intelligence) final-year
+project at B.K. Birla Institute of Engineering & Technology, Pilani (2025–26).
+
+Flask backend, transformer-based emotion and intent classification, rule-based crisis
+detection, and template-driven response generation, plus mood tracking, journalling and
+self-care tools.
+
+> **This is an academic project, not a mental health service.** It does not provide medical
+> or psychological advice and is not a substitute for professional care. The crisis-detection
+> layer is keyword-based and will miss real distress — see [Limitations](#limitations).
+> If you need support, contact a qualified professional or a crisis line in your country.
+
+---
+
+## What it does
+
+| Module | Function |
+|---|---|
+| Chat | Conversational interface with emotion-aware replies |
+| Mood tracker | Records daily emotional state |
+| Journal | Free-text entries tagged with an emotion |
+| Insights | Aggregates mood and journal data into simple summaries |
+| Support tools | Breathing and grounding exercises, guided journal prompts |
+| Dashboard | Overview of check-ins, streak, dominant mood |
+
+## Architecture
+
+Client–server. The browser sends a message to Flask; `model.py` classifies it;
+`response_generator.py` selects a reply; the response returns as JSON.
+
+The NLP layer runs in three independent stages:
+
+**Emotion detection** — a keyword pre-filter runs first. If any phrase in the
+anger / sadness / anxiety / positive lists matches as a substring, that bucket is returned
+immediately with a fixed confidence value. Only when every keyword check fails does the
+input reach `SamLowe/roberta-base-go_emotions`, whose 28 output labels are then collapsed
+into the same five coarse buckets.
+
+**Intent detection** — same pattern: keyword checks first, then
+`MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli` used zero-shot over nine candidate labels.
+
+**Crisis detection** — independent of the above. A flat list of 17 substrings; a match sets a
+flag that bypasses normal response generation entirely and returns a fixed support message.
+
+Responses are **selected from predefined templates**, not generated. There is no language
+model in the response path.
+
+### Files
+
+```
+app.py                  Flask routes and APIs
+model.py                Emotion, intent and crisis detection
+response_generator.py   Template selection
+test.py                 Unit tests (routes, APIs, storage)
+templates/              Jinja templates for all six pages
+static/                 style.css, script.js
+data/wellness_data.json Mood and journal storage
+```
+
+## Running it
+
+Requires Python 3.13.
+
+```bash
+git clone https://github.com/yashashvi422005/Mental-Health-Chatbot.git
+cd Mental-Health-Chatbot
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+
+Open `http://127.0.0.1:5000`. Both models download from Hugging Face on first run
+(~800 MB combined). CPU inference is fine.
+
+Run the tests with `python -m unittest test`.
+
+## Evaluation
+
+Measured against the GoEmotions test split (4,032 examples after filtering to those whose
+gold labels map unambiguously to one of the five buckets). Full method and code:
+[link to evaluation repo].
+
+| Stage | Accuracy | Macro-F1 |
+|---|---|---|
+| Keyword pre-filter alone (n=112) | 0.696 | 0.565 |
+| RoBERTa alone (n=4,032) | 0.745 | 0.674 |
+| Combined pipeline as shipped | 0.744 | 0.674 |
+
+Two findings:
+
+1. **The keyword pre-filter is effectively inert on this data.** It intercepts 2.8% of inputs
+   and performs worse than the model it precedes, so the combined pipeline scores the same as
+   RoBERTa alone. Note that GoEmotions is Reddit comments while the keyword lists were written
+   for first-person chat phrasing, so this understates how often the filter fires in real use.
+
+2. **Collapsing 28 labels to 5 more than doubles reported macro-F1** — 0.311 to 0.674 on
+   identical predictions. Raw 28-label accuracy is 0.664, so the gap is specifically in
+   macro-F1: the coarse mapping conceals weak performance on infrequent emotions by folding
+   them into large buckets or into `neutral`. Any system reporting a coarse-bucket score
+   should be read with this in mind.
+
+## Limitations
+
+- **Crisis detection is substring matching.** It has no negation handling ("I don't want to
+  die" matches), no understanding of indirect or idiomatic expressions of distress, and no
+  learned component of any kind. It will produce both false positives and false negatives.
+- **The crisis response hardcodes an India-specific helpline** with no locale handling. Users
+  elsewhere receive an unusable number.
+- **Keyword confidence scores are constants**, not measurements — 0.9 and 0.95 are literals
+  returned through the same interface as the model's real softmax score.
+- **Check order determines output.** Anger is tested before sadness, sadness before anxiety;
+  mixed-emotion input resolves to whichever list is checked first.
+- **No authentication, no database.** All data goes to a single local JSON file shared across
+  anyone using the instance.
+- **Not deployed** and not intended to be.
+
+## Credits
+
+Submitted as a two-name academic project (Shambhavi Pandey, Yashashvi Jangid) under
+Mrs. Ruchi Sharma, Department of CSE, BKBIET Pilani. System designed and implemented by
+Yashashvi Jangid.
+
+## References
+
+Demszky et al. (2020), *GoEmotions: A Dataset of Fine-Grained Emotions*, arXiv:2005.00547 ·
+Fitzpatrick, Darcy & Vierhile (2017), *Woebot*, JMIR Mental Health ·
+Fulmer et al. (2018), JMIR Mental Health
+
+## License
+
+[Choose one — MIT is the usual default.]
