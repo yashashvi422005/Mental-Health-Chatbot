@@ -128,4 +128,4 @@ Fulmer et al. (2018), JMIR Mental Health
 
 ## License
 
-[Choose one — MIT is the usual default.]
+MIT — see LICENSE
